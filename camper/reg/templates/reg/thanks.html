@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load sked_tags repl %}
+{% load bootstrap_toolkit %}
+
+{% block bodyattrs %}{{block.super}} class="registration"{% endblock %}
+
+{% block content %}
+<div class="row-fluid module collapse-bottom">
+    <div class="span12">
+        <h1>Thanks for registering!</h1>
+    </div>
+</div>
+<div class="row module">
+    <div class="span8">
+        <p>Congratulations, you are registered for TCamp {{ CURRENT_EVENT.start_date|date:"Y" }}!</p>
+        <p>We're so glad you're planning to join us {{ CURRENT_EVENT.start_date|date:"N j" }}&ndash;{{ CURRENT_EVENT.end_date|date:"N j" }}, and hope you'll help us spread the word to other great folks by sharing this event with your friends.</p>
+        <p>Got ideas or questions about TransparencyCamp? Send a tweet to <a href="https://twitter.com/TCampDC">@TCampDC</a> or <a href="https://twitter.com/search?q=%23tcamp14">#TCamp{{ CURRENT_EVENT.start_date|date:"y" }}</a> and we'll answer.</p>
+    </div>
+</div>
+
+<script src="//platform.twitter.com/oct.js" type="text/javascript"></script>
+<script type="text/javascript">
+twttr.conversion.trackPid('l4d11');
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://analytics.twitter.com/i/adsct?txn_id=l4d11&p_id=Twitter" />
+</noscript>
+
+{% endblock %}

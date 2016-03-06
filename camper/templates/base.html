@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+{% load compress staticfiles pages_tags treenav_tags cache %}
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js bb_wrapper" lang="en"> <!--<![endif]-->
+{% spaceless %}
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}TransparencyCamp{% endblock %}</title>
+
+    {# <link rel="apple-touch-startup-image" href="{% static "images/Default-480h.png" %}?{{ CACHEBUSTER }}" media="(device-width: 320px) and (device-height: 480px)" sizes="320x460"> #}
+    {# <link rel="apple-touch-startup-image" href="{% static "images/Default-480h@2x.png" %}?{{ CACHEBUSTER }}" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" sizes="640x920"> #}
+    {# <link rel="apple-touch-startup-image" href="{% static "images/Default-568h@2x.png" %}?{{ CACHEBUSTER }}" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" sizes="640x1096"> #}
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    {# <meta name="apple-mobile-web-app-capable" content="yes"> #}
+    {# <meta name="apple-mobile-web-app-status-bar-style" content="black" /> #}
+    <link rel="apple-touch-icon" href="{{ APPLE_TOUCH_ICON }}?{{ CACHEBUSTER }}">
+
+    <link rel="shortcut icon" href="{{ FAVICON }}?{{ CACHEBUSTER }}">
+    <meta name="description" content="">
+    <meta property="fb:app_id" content="{{ FB_APP_ID }}">
+    <meta name="author" content="{% block meta_author %}The Sunlight Foundation{% endblock %}">
+    <meta property="og:site_name" content="TransparencyCamp">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ SHARING_IMAGE }}?{{ CACHEBUSTER }}">
+    {% block opengraph %}
+    <meta property="og:title" content="{% chunk "og_title" %}">
+    <meta property="og:description" content="{% chunk "og_description" %}">
+    <meta property="og:url" content="{% chunk "og_url" %}">
+    {% endblock opengraph %}
+
+    {% comment %}
+    <script>
+    (function(window){
+        if(window.navigator.standalone){
+            // fetch previous page in webapp mode and return the user there.
+            var prevloc = localStorage.getItem('webloc');
+            if(prevloc && !prevloc.match(location.href)){
+                location.href = prevloc;
+            }
+        }
+    })(this);
+    </script>
+    {% endcomment %}
+
+    <link rel="stylesheet" href="https://s3.amazonaws.com/sunlight-cdn/brandingbar/0.3/css/brandingbar.min.css.gz">
+    <link rel="stylesheet" href="https://s3.amazonaws.com/sunlight-cdn/sf-icons/0.2/css/sf-icons.min.css.gz">
+    {% compress css %}
+    <link href="{% static "styles/bootstrap.css" %}?{{ CACHEBUSTER }}" rel="stylesheet" type="text/css">
+    <link href="{% static "styles/bootstrap/responsive.css" %}?{{ CACHEBUSTER }}" rel="stylesheet" type="text/css">
+    <link href="{% static "styles/app.css" %}?{{ CACHEBUSTER }}" rel="stylesheet" type="text/css">
+    <link href="{% static "styles/modal.css" %}?{{ CACHEBUSTER }}" rel="stylesheet" type="text/css">
+    {% endcompress %}
+    {% block css %}
+    {% endblock css %}
+    <script type="text/javascript" src="//use.typekit.net/jat1nrs.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+</head>
+<body {% block bodyattrs %}{% endblock %}>
+    {% comment %}
+    <div class='overlay'>
+        <div class='inner'>
+            <div class="modal-content-wrapper">
+                <div class="modal-content">
+                    <h1 class="hide-text logo">Transparency Camp</h1>
+                    <h2>
+                        <span class="modal-arrow"><span class="modal-coming">Coming</span></span>
+                        <span class="modal-date">SEPT. 11-12, 2015</span>
+                        <span class="modal-location">Washington, DC</span>
+                    </h2>
+                    <h3 class="call-to-action">Be the first to know</h3>
+
+                    <!-- Begin MailChimp Signup Form -->
+                    <div id="mc_embed_signup">
+                    <form action="//sunlightfoundation.us5.list-manage.com/subscribe/post?u=d5304df77590e80121f8e02ec&amp;id=e612d63bd4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div id="mc_embed_signup_scroll">
+                        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;"><input type="text" name="b_d5304df77590e80121f8e02ec_e612d63bd4" tabindex="-1" value=""></div>
+                        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                        </div>
+                    </form>
+                    </div>
+                    <!--End mc_embed_signup-->
+                </div>
+            </div>
+            <a href="" class='quit hide-text'>
+                Quit
+            </a>
+        </div>
+    </div>
+    {% endcomment %}
+
+    {% block container %}
+
+    <header>
+        {% block outerheader %}
+
+        {% block brandingbar %}
+        <div class="brandingbar" data-bb-brandingbar="true">
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a class="btn btn-navbar menu-trigger hidden-desktop">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <div class="branding-bar_links pull-left hidden-phone">
+                            <a class="social" href="https://www.facebook.com/sunlightfoundation"><span class="sficon-facebook"></span></a>
+                            <a class="social" href="https://twitter.com/sunfoundation"><span class="sficon-twitter"></span></a>
+                            <a class="social" href="https://plus.google.com/+sunlightfoundation"><span class="sficon-google-plus"></span></a>
+                            <a class="branding-bar_trigger" data-bb-toggle=".bb_wrapper" href="http://sunlightfoundation.com/about/">About Sunlight Foundation</a>
+                        </div>
+                        <p class="pull-right"><a class="hide-text sunlight-brand" href="http://sunlightfoundation.com">An unconference by <strong>The Sunlight Foundation</strong></a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock brandingbar %}
+        <div class="masthead">
+            <div class="container stripe">
+                {% block header %}
+                <div class="row-fluid siteheader">
+                    {% chunk "siteheader" %}
+                </div>
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="nav-collapse collapse" id="menu">
+                            <ul class="nav hidden-desktop">
+                                <!-- <li><h4><a href="sms:1-202-817-2267">Text 202-817-CAMP (2267)</a></h4></li> -->
+                                <li{% if request.path == '/' %} class="active"{% endif %}><a href="/">Home</a></li>
+                            </ul>
+                            {% cache 500 treenav request.path %}
+                            {% show_treenav "transparencycamp" full_tree="True" %}
+                            {% endcache %}
+                            {% if CURRENT_EVENT.registration_is_open %}
+                            <form action="{{ CURRENT_EVENT.registration_url }}" class="navbar-form pull-right visible-desktop" method="get">
+                                <button class="btn btn-primary" type="submit">Register! <span class="hide-text icon icon-forward">&raquo;</span></button>
+                            </form>
+                            <ul class="nav">
+                                <li>
+                                    <a class="hidden-desktop" href="{{ CURRENT_EVENT.registration_url }}">Register Now!</a>
+                                </li>
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endblock header %}
+            </div>
+        </div>
+
+        {% endblock outerheader %}
+    </header>
+
+    <div id="content">
+        {% block outercontent %}
+        <div class="container stripe">
+        {% if messages %}
+            <div class="row-fluid module collapse-bottom">
+                <div class="span12">
+                {% for message in messages %}
+                    <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% block content %}
+        {% endblock content %}
+        </div>
+        {% endblock outercontent %}
+    </div>
+
+    {% block contentfooter %}
+    {% endblock %}
+
+    <footer>
+    {% block outerfooter %}
+    <div class="footer">
+        <div class="sf-footer container module stripe">
+            {% block footer %}
+            <div class="row-fluid">
+                <div class="span12">
+                    <h3>Sign up to learn more about TransparencyCamp!</h3>
+                    <form action="/subscribe/" class="form-inline" method="post" id="sfapp-subscribe-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="response" value="json">
+                        <input type="text" name="email" placeholder="email address">
+                        <input type="text" name="zipcode" placeholder="zip code">
+                        <button type="submit" class="btn btn-inverse">Sign up!</button>
+                    </form>
+                </div>
+            </div>
+            {% endblock footer %}
+        </div>
+    </div>
+    {% endblock outerfooter %}
+    </footer>
+    {% endblock container %}
+
+    {% compress js %}
+    <script src="{% static "scripts/underscore.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    <script src="{% static "scripts/jquery.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    <script src="{% static "scripts/jquery.throttle-debounce.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    <script src="{% static "scripts/jquery.fitvids.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    <script src="{% static "scripts/jquery.event.move.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    <script src="{% static "scripts/bootstrap.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    <script src="{% static "sfapp/js/sfapp.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    <script src="{% static "scripts/app.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    <script src="{% static "scripts/drawer-menu.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>
+    {% comment %}<script src="{% static "scripts/modal.js" %}?{{ CACHEBUSTER }}" type="text/javascript"></script>{% endcomment %}
+    {% endcompress %}
+    <script src="//s3.amazonaws.com/assets.sunlightfoundation.com/social/scripts/simple-socialite-pack.min.js" type="text/javascript"></script>
+    <script src="//s3.amazonaws.com/sunlight-cdn/brandingbar/0.2/js/brandingbar.min.js.gz"></script>
+    {% block js %}
+    {% endblock js %}
+    {% block analytics %}
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', '{{ GOOGLE_ANALYTICS_ID }}']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+        {% if not DEBUG %}
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-48789618-1', 'transparencycamp.org', {'name': 'global'});
+            ga('global.send', 'pageview');
+        </script>
+        {% endif %}
+    {% endblock %}
+</body>
+{% endspaceless %}
+</html>

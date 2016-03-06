@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load staticfiles pages_tags %}
+
+{% block outercontent %}
+<div class="container stripe">
+{% if messages %}
+    <div class="row-fluid module">
+        <div class="span12">
+        {% for message in messages %}
+            <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+        </div>
+    </div>
+{% endif %}
+<div class="row-fluid module">
+    <div class="span8">
+        {% block content %}
+        <h1>{{ subsite.name }}</h1>
+        {{ subsite.description|linebreaks }}
+
+        {% if subsite.voting_status == 1 %}
+        <div class="alert brainstorm-alert">
+            {% chunk "brainstorm-voting-info" %}
+        </div>
+        {% endif %}
+
+        {% endblock %}
+    </div>
+    <div class="span4">
+        {% block sidebar %}
+        <div class="well right-edge">
+            {% include "brainstorm/partials/idea_form.html" %}
+        </div>
+        {% endblock %}
+    </div>
+</div>
+
+</div>
+{% endblock outercontent %}
+
+{% block js %}
+{{ block.super }}
+<script>
+(function($){
+    $(function(){
+        $(window).resize($.throttle(150, function(){
+            $('.brainstorm-item').each(function(){
+                var h = $(this).find('h3').height();
+                h += $(this).find('.brainstorm-timestamp').height();
+                $(this).find('.brainstorm-vote').css('top', h + 60);
+            })
+        }));
+    });
+})(jQuery);
+</script>
+{% endblock %}

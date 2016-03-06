@@ -1,0 +1,58 @@
+[
+  {
+    "pk": 1,
+    "model": "reg.tickettype",
+    "fields": {
+      "max_tickets": 500,
+      "description": "",
+      "price": "25.00",
+      "expires": "2014-02-22T04:59:00Z",
+      "enabled": true,
+      "position": 0,
+      "event": 6,
+      "name": "Early Bird Camper"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "reg.tickettype",
+    "fields": {
+      "max_tickets": 500,
+      "description": "The actual cost of attending TransparencyCamp is over $130 per person. If you register as a Super Camper, you'll help us cover the true cost of TCamp.",
+      "price": "130.00",
+      "expires": "2014-05-02T03:59:00Z",
+      "enabled": true,
+      "position": 2,
+      "event": 6,
+      "name": "Super Camper"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "reg.tickettype",
+    "fields": {
+      "max_tickets": 500,
+      "description": "",
+      "price": "10.00",
+      "expires": "2014-02-22T04:59:00Z",
+      "enabled": true,
+      "position": 1,
+      "event": 6,
+      "name": "Early Bird Student Camper"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "reg.tickettype",
+    "fields": {
+      "max_tickets": 500,
+      "description": "As a Camp Counselor, you will help with registration, keep sessions on time, direct lost campers and help with other troubleshooting. If you have a knack for logistics and a friendly customer service demeanor, we need your help! Volunteers must attend an orientation (either online or in person). More details when you sign up! Note: you don't need to also sign up as a camper if you volunteer.",
+      "price": "0.00",
+      "expires": "2014-05-02T03:59:00Z",
+      "enabled": true,
+      "position": 3,
+      "event": 6,
+      "name": "Volunteer: Be a Camp Counselor!"
+    }
+  }
+]

@@ -1,0 +1,65 @@
+Django==1.9.4
+django-debug-toolbar
+django-pdb
+django-template-repl
+django-extensions>=1.3.3
+django-devserver
+bpython
+six
+
+boto>=2.8
+django-compressor
+django-storages
+django-tastypie
+django-disqus
+django-honeypot
+django-taggit
+django-treenav
+django-reversion
+django-twilio
+django-markdown-deux
+django-markitup
+django-markupfield
+django-timedeltafield
+python-dateutil
+python-postmark
+validictory
+djutils
+
+stemming
+Markdown
+requests
+python-social-auth
+python-flickr
+python-twitter
+python-openid
+-e git://github.com/jcarbaugh/django-googleauth.git#egg=googleauth
+
+gunicorn
+gaffer
+gevent
+psycopg2
+Pillow
+pytz
+fabric
+pexpect
+raven
+python-memcached
+dj-database-url
+python-varnish
+-e git://github.com/drinks/herokal-settings.git#egg=herokal
+-e git://github.com/drinks/django-varnish.git#egg=varnishapp
+-e git://github.com/dlrust/python-memcached-stats.git#egg=memcached_stats
+
+django-bootstrap3
+django-extras
+django-localflavor
+braintree
+html2text
+qrcode
+shortuuid
+django-admin-enhancer
+-e git://github.com/apendleton/django-admin-exporter.git@match_model_order#egg=admin_exporter
+
+redis
+django-redis

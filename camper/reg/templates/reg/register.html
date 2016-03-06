@@ -1,0 +1,486 @@
+{% extends "base.html" %}
+{% load sked_tags repl %}
+{% load bootstrap_toolkit %}
+
+{% block bodyattrs %}{{block.super}} class="registration"{% endblock %}
+
+{% block content %}
+<div class="row-fluid module collapse-bottom">
+    <div class="span12">
+        <h1>Register for TCamp</h1>
+    </div>
+</div>
+<div class="row module">
+    <div class="span8">
+        <p>TransparencyCamp is an “unconference” for opengov. Each year, journalists, developers, technologists, policy-makers, government officials, students, academics, wonks and everyone in between gather together to share knowledge about how to use new technologies and policies to make our government really work for the people&mdash;and to help our people work smarter with our government.</p>
+
+        {% if registration_is_open %}
+        <p><strong>We expect tickets for this event to sell out, so be sure to register today!</strong></p>
+        {% else %}
+        <p><strong>Registration for TCamp is now closed, but you may be able to register for the event on site if tickets are available.  On-site registration prices are listed below.</strong></p>
+        {% endif %}
+
+        <p>As an <a href="http://transparencycamp.org/about/tips/">unconference</a>, TransparencyCamp emphasizes the important contributions that each and every attendee brings with them into the sessions, workshops and conversations associated with this event. In fact, attendees (yes, all of them) are brought into the process of making the schedule for the conference with the organizers and are encouraged to step up and lead sessions themselves. (Check out this <a href="http://www.youtube.com/watch?v=_3Jse9n80qk&list=PLdo_y1-rDBGZSvFmq1Nf5W1CzK76QwrZr&feature=share">video</a> to get a better sense of what we mean.) Never been to an unconference? No sweat, just let us know and we’ll pair you up with a member of our welcoming team.</p>
+
+        <hr />
+        <h2>Tickets</h2>
+        <table class="table ticket-types">
+            <thead>
+                <tr>
+                    <th>Ticket Type</th>{% if registration_is_open %}<th>Sales End</th>{% endif %}<th>Price</th>{% if registration_is_open %}<th>Quantity</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for type in ticket_types %}
+                <tr data-type-id="{{ type.id }}" data-type-price="{{ type.price }}">
+                    <td>
+                        <span class="ticket-name">{{ type.name }}</span>
+                        {% if type.description %}
+                        &nbsp;<span class="whats-this"><a href="#" data-toggle="popover" title="{{ type.name }}" data-content="{{ type.description }}">what's this?</a></span>
+                        {% endif %}
+                    </td>
+                    {% if registration_is_open %}<td>{% if type.expires %}{{ type.expires|date:"N j, Y" }}{% else %}<em>None</em>{% endif %}</td>{% endif %}
+                    <td>{% if type.price > 0 %}${{ type.price }}{% else %}Free{% endif %}</td>
+
+                    {% if registration_is_open %}
+                    <td>
+                        {% if type.is_expired %}
+                            <span class="text-danger">Sale Over</span>
+                        {% elif type.is_sold_out %}
+                            <span class="text-danger">Sold Out</span>
+                        {% else %}
+                            <select class="input-small ticket-qty">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                            </select>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="ticket-form-container">
+            <h2>Attendee Information</h2>
+            <div class="accordion" id="ticket-forms">
+                {% for type in ticket_types %}
+                <span class="ticket-sentinel-{{ type.id}}"></span>
+                {% endfor %}
+            </div>
+
+            <div class="text-right">
+                <div class="coupon">
+                    Coupon Code: <input class="input-small" type="text" id="id_coupon_code" name="coupon_code" /> <a href="#" id="apply-coupon" class="btn btn-small">Apply Code</a>
+                </div>
+                <div class="lead">
+                    Total: $<span class="total-price">0</span>
+                </div>
+            </div>
+
+            <div class="payment-info">
+                <h2>Payment Information</h2>
+                {% include "reg/partials/payment_form.html" %}
+            </div>
+
+            <div class="row">
+                <div class="span4 pull-right text-right">
+                    <input class="btn btn-large" type="submit" value="Register!" />
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <p>Purchase of tickets to TransparencyCamp is non-refundable. If you are a member of the press who would like to attend TCamp, please contact Jenn Topper at <a href="jenn@sunlightfoundation.com">jenn@sunlightfoundation.com</a>.</p>
+        {% comment %}<p>Interested in attending TCamp but need a little help getting here? <a href="https://docs.google.com/forms/d/1OXX5c93rCLmVRxCe_Su8mCNSEgwWqf90zvidBCstpOk/viewform">Click here</a> to apply for our registration and travel stipends.</p>{% endcomment %}
+    </div>
+
+
+    <div class="span3 event-sidebar">
+        <div class="event-info">
+            <h3>{{ event.name }}</h3>
+            <strong>hosted by <a href="http://www.sunlightfoundation.com">Sunlight Foundation</a><br />
+            {{ event.start_date|date:"l, N j" }}&ndash;{{ event.end_date|date:"l, N j, Y" }}</strong><br />
+            <a href="https://www.google.com/maps/place/Kellogg+Conference+Hotel/@38.907739,-76.995112,17z/data=!3m1!4b1!4m2!3m1!1s0x89b7b8115a960d3d:0x2d7fed4a38b132f4">
+                Kellogg Conference Hotel at Gallaudet&nbsp;University<br />
+                Washington, DC
+            </a>
+        </div>
+
+        <div class="attendee-info">
+            <h3>Who's going?</h3>
+            <div class="attendees">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="ticket-form-tpl">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#ticket-forms"></a>
+        </div>
+        <div class="accordion-body collapse">
+            <div class="accordion-inner">
+                {% include "reg/partials/ticket_form.html" %}
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="whos-going-tpl">
+    <% _.each(attendees, function(attendee) { %>
+    <div class="attendee">
+        <div class="attendee-name">
+            <strong>
+            <% if (attendee.twitter.length) { %>
+                <a href="http://twitter.com/<%=attendee.twitter%>"><%=(attendee.first_name + " " + attendee.last_name)%></a>
+            <% } else { %>
+                <%=(attendee.first_name + " " + attendee.last_name)%>
+            <% } %>
+            </strong>
+        </div>
+        <div class="attendee-org"><%=attendee.organization%></div>
+    </div>
+    <% }); %>
+</script>
+
+<script src="//platform.twitter.com/oct.js" type="text/javascript"></script>
+<script type="text/javascript">
+twttr.conversion.trackPid('l4dk4');
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://analytics.twitter.com/i/adsct?txn_id=l4dk4&p_id=Twitter" />
+</noscript>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script src="https://js.braintreegateway.com/v1/braintree.js"></script>
+<script type="text/javascript">
+(function() {
+    //payment stuff
+    braintree = Braintree.create('{{ BRAINTREE_CSE_KEY }}');
+
+    // populate the "who's going" box
+    $.getJSON("/register/whos-going/", function(data) {
+        var tpl = _.template($('#whos-going-tpl').html());
+        $('.attendees').html(tpl(data));
+    });
+
+    // make the diet toggles work
+    $('.ticket-types a[data-toggle=popover]').popover();
+
+    // popover behavior:
+    //   - to make it turn on
+    $('body').on('click', 'a[data-toggle=popover]', function(evt) { evt.preventDefault(); });
+    //   - to make it easier to turn off (from SO)
+    $('body').on('click', function (e) {
+        $('[data-toggle="popover"]').each(function () {
+            //the 'is' for buttons that trigger popups
+            //the 'has' for icons within a button that triggers a popup
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
+            }
+        });
+    });
+
+    // copy info from one form to the other
+    $('.ticket-form-container').on('change', 'input.copy-info', function(evt) {
+        var $el = $(evt.target);
+        var payment = $('.payment-info');
+        var ticket = $('.accordion-body.first-ticket');
+        if ($el.is(":checked")) {
+            _.each(['first_name', 'last_name', 'email'], function(item) {
+                payment.find('input[name=' + item + ']').val(ticket.find('input[name=' + item + ']').val());
+            })
+        }
+    });
+
+    // show/hide of diet descriptions
+    _.each(['diet_allergies', 'diet_other'], function(dtype) {
+        var change = function(event) {
+            var checkbox = $(event.target);
+            var textarea = checkbox.parents('.row').find('textarea[name=' + dtype + '_desc]').parents('.control-group');
+            if (checkbox.is(':checked')) {
+                textarea.slideDown('fast');
+            } else {
+                textarea.slideUp('fast');
+            }
+        }
+        $('#ticket-forms').on('change', 'input[name=' + dtype + ']', change).trigger('change', 'input[name=' + dtype + ']');
+    });
+
+    var prepareTicketForm = function(form) {
+        form.find('input[type=checkbox]').trigger('change');
+        form.find('.label-help').each(function(idx, el) {
+            var $el = $(el);
+            var text = $el.html();
+            var parent = $el.parent();
+            $el.remove();
+
+            parent.find('label.control-label,label.checkbox').each(function(idx, lel) {
+                var $lel = $(lel);
+                $lel.append('&nbsp;<span class="whats-this"><a href="#" data-placement="top" data-toggle="popover" data-content="' + text + '">what\'s this?</a></span>');
+            })
+        });
+        form.find('a[data-toggle=popover]').popover();
+    }
+
+    var updatePrice = function(callback) {
+        var tickets = {};
+        $('.ticket-types tbody tr').each(function(idx, el) {
+            var $el = $(el);
+            var id = $el.attr('data-type-id');
+            var qty = parseInt($el.find('select.ticket-qty').val());
+            tickets[parseInt(id)] = qty;
+        });
+        var data = {'tickets': tickets};
+
+        var code = $('#id_coupon_code').val();
+        if (code.length) data['coupon'] = code;
+
+        $.ajax({
+            url: '/register/price/',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function(data) {
+                $('.total-price').html(data['price']);
+                if (parseFloat(data['price']) > 0) {
+                    $('.payment-info').show();
+                    if (callback) callback(data);
+                } else {
+                    $('.payment-info').hide();
+                    if (callback) callback(data);
+                }
+            }
+        });
+    }
+
+    var popoverMessage = function($el, message) {
+        $el.popover({'content': message, 'placement': 'top'});
+        $el.popover('show');
+        setTimeout(function() {
+            $el.popover('hide');
+            $el.popover('destroy');
+        }, 2000);
+    };
+
+    $('#apply-coupon').click(function(evt) {
+        evt.preventDefault();
+        var $el = $(evt.target);
+
+        $el.addClass('disabled');
+
+        updatePrice(function(data) {
+            if (data.coupon) {
+                var message = "Coupon applied!";
+            } else if (data.coupon_error) {
+                var message = "Error: " + data.coupon_error;
+            } else {
+                var message = "No coupon applied.";
+            }
+
+            $el.removeClass('disabled');
+
+            var input = $el.parents('.coupon').find('input');
+            popoverMessage(input, message);
+        });
+    })
+
+
+    // add the right number of forms
+    $('.ticket-types select').change(function() {
+        $('.ticket-types tbody tr').each(function(idx, el) {
+            var $el = $(el);
+            var id = $el.attr('data-type-id');
+            var qty = parseInt($el.find('select.ticket-qty').val());
+
+            // how many are there now?
+            // var group = $(".ticket-group-" + id);
+            var group = $('#ticket-forms');
+            var cqty = group.find('.accordion-group[data-ticket-id=' + id + ']').length;
+            if (cqty < qty) {
+                var tpl = $.trim($("#ticket-form-tpl").html());
+
+                if (cqty == 0) {
+                    var sentinel = group.find('.ticket-sentinel-' + id);
+                } else {
+                    var sentinel = group.find('.accordion-group[data-ticket-id=' + id + ']').slice(-1);
+                }
+
+                // add some more
+                for (var i = cqty + 1; i <= qty; i++) {
+                    var row = $(tpl);
+                    row.attr('data-ticket-id', id);
+                    row.find('form').attr('data-form-id', id + '-' + i);
+                    row.find('input[name=type]').val(id);
+                    row.find('.accordion-toggle').html($el.find('.ticket-name').html() + ' #' + i).attr('href', '#collapse-' + id + '-' + i);
+                    row.find('.accordion-body').attr('id', 'collapse-' + id + '-' + i);
+                    sentinel.after(row);
+                    prepareTicketForm(row.find('form'));
+
+                    sentinel = row;
+                }
+            } else if (cqty > qty) {
+                group.find('.accordion-group[data-ticket-id=' + id + ']').slice(qty).remove();
+            }
+        })
+
+        var collapses = $('#ticket-forms .collapse');
+        if (collapses.length > 0) {
+            collapses.removeClass('first-ticket').removeClass('last-ticket');
+
+            $('.ticket-form-container').show();
+
+            // first one gets special treatment
+            var first = collapses.eq(0);
+            first.addClass('first-ticket')
+            if (!first.hasClass('in')) {
+                first.parent().find('.accordion-heading a').click()
+            }
+
+            // and the last one
+            collapses.eq(-1).addClass('last-ticket');
+        } else {
+            $('.ticket-form-container').hide();
+        }
+        updatePrice();
+    });
+
+    // handle the next-ticket and previous-ticket buttons
+    $('#ticket-forms').on('click', 'a.next-ticket,a.prev-ticket', function(evt) {
+        evt.preventDefault();
+        var $el = $(evt.target);
+
+        var group = $el.parents('.accordion-group');
+        var sibling = $el.hasClass('prev-ticket') ? group.prevAll('.accordion-group').eq(0) : group.nextAll('.accordion-group').eq(0);
+        if (!sibling.find('.accordion-body').hasClass('in')) {
+            sibling.find('.accordion-heading a').click();
+        }
+    })
+
+    // big scary form submission
+    var submitForm = function(evt) {
+        evt.preventDefault();
+
+        var $btn = $('.ticket-form-container input[type=submit]');
+        $btn.addClass('disabled');
+
+        // the goal here is to serialize each ticket form, and the payment form if necessary
+        var data = {
+            'ticket_forms': {},
+            'coupon': $('#id_coupon_code').val(),
+            'expected_price': parseFloat($('.total-price').html())
+        }
+        $('#ticket-forms form').each(function(idx, el) {
+            var form = $(el);
+            var fdata = {};
+            _.each(form.serializeArray(), function(item) {
+                fdata[item.name] = item.value;
+            })
+            data.ticket_forms[form.attr('data-form-id')] = fdata;
+        });
+
+        // do we need to do payment?
+        if (data.expected_price > 0) {
+            var pform = $('.payment-info form');
+            braintree.encryptForm(pform.get(0));
+
+            var fdata = {};
+            _.each(pform.serializeArray(), function(item) {
+                fdata[item.name] = item.value;
+            })
+            data.payment_form = fdata;
+        }
+
+        // submit everything
+        $.ajax({
+            url: '/register/save/',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: 'json'
+        }).success(function(data) {
+            // okay, how'd we do?
+            if (data.success == true) {
+                // sweet!
+                document.location.href = '/register/thanks/';
+            } else {
+                // at least one of the forms was broken
+                _.each(data.ticket_forms, function(form) {
+                    if (!form.success) {
+                        var old = $('form[data-form-id=' + form.id + ']');
+                        var parent = old.parent();
+                        parent.html(form.text);
+                        var newf = parent.find('form');
+                        newf.attr('data-form-id', form.id);
+
+                        prepareTicketForm(newf);
+
+                        newf.parents('.accordion-group').addClass('has-errors');
+                    } else {
+                        $('form[data-form-id=' + form.id + ']').parents('.accordion-group').removeClass('has-errors');
+                    }
+                });
+                // show the first one with an error in it
+                var firstErrors = $('.accordion-group.has-errors').eq(0);
+                if (!firstErrors.find('.accordion-body').hasClass('in')) {
+                    firstErrors.find('.accordion-heading a').click();
+                }
+
+                if (data.payment_form && !data.payment_form.success) {
+                    var old = $('.payment-info form');
+
+                    // for the stuff that didn't get sent to the server, copy it into the new form so we don't lose it
+                    var enc = {}
+                    old.find('input[data-encrypted-name]').each(function(idx, el) {
+                        var $el = $(el);
+                        enc[$el.attr('data-encrypted-name')] = $el.val();
+                    });
+                    old.replaceWith(data.payment_form.text);
+
+                    var newf = $('.payment-info form');
+                    $.each(enc, function(key, value) {
+                        newf.find('input[data-encrypted-name=' + key + ']').val(value);
+                    })
+                }
+
+                // re-enable the button
+                $btn.removeClass('disabled');
+                setTimeout(function() {
+                    popoverMessage($btn, "There was an error in your submission. Please check it for errors and try again.");
+                }, 500);
+            }
+        });
+    }
+
+    $('.ticket-form-container')
+        .on('submit', 'form', submitForm)
+        .on('click', 'input[type=submit]', submitForm);
+
+})();
+</script>
+{% endblock %}

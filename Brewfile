@@ -1,0 +1,2 @@
+brew 'postgres'
+brew 'automake'
